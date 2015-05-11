@@ -1,2 +1,2 @@
 # pspe4all-psptests
-tests using for pspe4all project
+tests for using with pspe4all project
