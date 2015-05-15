@@ -47,7 +47,7 @@ void printResult(char *name, int durationMillis, float pspDurationMillis)
 {
 	char s[1000];
 	sprintf(s, "%-25s: %5d ms (%5.0f%%) @ %d MHz\n", name, durationMillis, pspDurationMillis / durationMillis * 100, scePowerGetCpuClockFrequencyInt());
-	pspDebugScreenPrintf("%s", s);
+//	pspDebugScreenPrintf("%s", s);
 	sceIoWrite(logFd, s, strlen(s));
 }
 
@@ -622,6 +622,8 @@ void runTest()
 	sumDurationMillis = 0;
 	sumPspDurationMillis = 0;
 	runTest1();
+	runTest1();
+	runTest1();
 	runTest2();
 	runTest3();
 	runTest4();
@@ -633,11 +635,11 @@ void runTest()
 	runTest10();
 	runTest11();
 	runTest12();
-	runTest13();
+    /*runTest13();
 	runTest14();
 	runTest15();
 	runTest16();
-	runTest17();
+	runTest17();*/
 	runTest18();
 	runTest19();
 	runTest20();
@@ -671,13 +673,13 @@ int main(int argc, char *argv[])
 
 	logFd = sceIoOpen("compilerPerf.log", PSP_O_WRONLY | PSP_O_CREAT, 0777);
 
-	pspDebugScreenInit();
-	pspDebugScreenPrintf("Press Cross to start the Performance Test\n");
-	pspDebugScreenPrintf("Press Circle to change the CPU Clock\n");
+//	pspDebugScreenInit();
+//	pspDebugScreenPrintf("Press Cross to start the Performance Test\n");
+//	pspDebugScreenPrintf("Press Circle to change the CPU Clock\n");
 
 	while(!done)
 	{
-		sceCtrlReadBufferPositive(&pad, 1);
+		/*sceCtrlReadBufferPositive(&pad, 1);
 		int buttonDown = (oldButtons ^ pad.Buttons) & pad.Buttons;
 
 		if (pad.Buttons == oldButtons)
@@ -717,16 +719,16 @@ int main(int argc, char *argv[])
 			}
 		}
 		else
-		{
+		{*/
 			repeatStart.tv_sec = 0;
-		}
+		/*}
 
 		if (buttonDown & PSP_CTRL_CROSS)
-		{
+		{*/
 			runTest();
-		}
+		/*}*/
 
-		if (buttonDown & PSP_CTRL_CIRCLE)
+		/*if (buttonDown & PSP_CTRL_CIRCLE)
 		{
 			cpuFreq += 111;
 			if (cpuFreq > 333)
@@ -746,14 +748,14 @@ int main(int argc, char *argv[])
 		}
 
 		if (buttonDown & PSP_CTRL_TRIANGLE)
-		{
+		{*/
 			done = 1;
-		}
+		/*}
 
-		oldButtons = pad.Buttons;
+		oldButtons = pad.Buttons;*/
 	}
 
-	sceGuTerm();
+//	sceGuTerm();
 
 	sceIoClose(logFd);
 
@@ -762,21 +764,21 @@ int main(int argc, char *argv[])
 }
 
 /* Exit callback */
-int exit_callback(int arg1, int arg2, void *common)
+/*int exit_callback(int arg1, int arg2, void *common)
 {
 	done = 1;
 	return 0;
-}
+}*/
 
 /* Callback thread */
 int CallbackThread(SceSize args, void *argp)
 {
-	int cbid;
+	/*int cbid;
 
 	cbid = sceKernelCreateCallback("Exit Callback", exit_callback, (void*)0);
 	sceKernelRegisterExitCallback(cbid);
 
-	sceKernelSleepThreadCB();
+	sceKernelSleepThreadCB();*/
 
 	return 0;
 }
@@ -789,7 +791,7 @@ int SetupCallbacks(void)
 	thid = sceKernelCreateThread("CallbackThread", CallbackThread, 0x11, 0xFA0, 0, 0);
 	if(thid >= 0)
 	{
-		sceKernelStartThread(thid, 0, 0);
+		//sceKernelStartThread(thid, 0, 0);
 	}
 
 	return thid;
